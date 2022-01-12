@@ -9,7 +9,7 @@ const Calculator = () => {
       <div className="buttons">
         {
           buttonKeys.map((button, idx) => {
-            return <Button key={idx} />
+            return <Button key={idx} button={button}/>
           })
         }
       </div>

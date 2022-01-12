@@ -1,10 +1,15 @@
 import React from 'react';
 
 
-const Button = () => {
+interface buttonProps {
+  button : string
+  key : number
+}
+
+const Button = ({button}: buttonProps) => {
   return (
     <div className ={`button button-`}>
-      Buter
+      {`b-${button}`}
     </div>
   )
 
