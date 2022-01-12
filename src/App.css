@@ -25,6 +25,10 @@ h1 {
   background-color: black;
 }
 
+.operations {
+  text-align: right;
+}
+
 .display {
   height: 5vh;
   padding-top: 25px;
@@ -32,6 +36,7 @@ h1 {
 }
 
 .buttons {
+  cursor: pointer;
   padding: 10px 0px;
   display: grid;
   grid-row-gap: 10px;
