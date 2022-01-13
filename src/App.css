@@ -25,12 +25,16 @@ h1 {
   background-color: black;
 }
 
-.operations {
+.display-operations {
+  height: 3vh;
+  font-size: 40px;
+  padding-top: 25px;
   text-align: right;
 }
 
-.display {
+.display-results {
   height: 5vh;
+  font-size: 40px;
   padding-top: 25px;
   text-align: right;
 }

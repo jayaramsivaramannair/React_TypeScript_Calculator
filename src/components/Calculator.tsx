@@ -5,10 +5,16 @@ const Calculator = () => {
 
   const [result, setResult] = useState<number>(0);
   const [operations, setOperations] = useState<string []>([]);
+  const [click, setClick] = useState<string>("0");
 
   const renderButtonList = (): JSX.Element[] => {
     return buttonKeys.map((button, idx) => {
-      return <Button key={idx} button={button} setResult={setResult} setOperations={setOperations} operations={operations}/>
+      return <Button key={idx} button={button}
+              click={click} 
+              setClick={setClick}
+              setResult={setResult} 
+              setOperations={setOperations} 
+              operations={operations}/>
     })
   }
 
@@ -18,8 +24,8 @@ const Calculator = () => {
   
   return (
     <div className="shell">
-      <div className="operations">{displayOperations()}</div>
-      <div className="display">{result}</div>
+      <div className="display-operations">{displayOperations()}</div>
+      <div className="display-results">{click}</div>
       <div className="buttons">
         {renderButtonList()}
       </div>
