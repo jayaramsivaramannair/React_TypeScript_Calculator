@@ -3,7 +3,7 @@ import Button from './Button';
 const Calculator = () => {
   const buttonKeys = ['AC', '/', 'x', '7', '8', '9', '-', '4', '5', '6', '+', '1', '2', '3', '0', '.', '=']
 
-  const [result, setResult] = useState<number>(0);
+  //const [result, setResult] = useState<number>(0);
   const [operations, setOperations] = useState<string []>([]);
   const [click, setClick] = useState<string>("0");
 
@@ -12,7 +12,6 @@ const Calculator = () => {
       return <Button key={idx} button={button}
               click={click} 
               setClick={setClick}
-              setResult={setResult} 
               setOperations={setOperations} 
               operations={operations}/>
     })
