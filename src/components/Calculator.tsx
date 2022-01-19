@@ -5,6 +5,15 @@ const Calculator = () => {
 
   //const [result, setResult] = useState<number>(0);
   const [operations, setOperations] = useState<string []>([]);
+  const [intermediate, setIntermediate] = useState({
+    firstNumberReceived: false,
+    firstNumber : "",
+    secondNumberReceived: false,
+    secondNumber: "",
+    operatorReceived: false,
+    operator: ""
+  })
+
   const [click, setClick] = useState<string>("0");
 
   const renderButtonList = (): JSX.Element[] => {
@@ -13,7 +22,10 @@ const Calculator = () => {
               click={click} 
               setClick={setClick}
               setOperations={setOperations} 
-              operations={operations}/>
+              operations={operations}
+              intermediate={intermediate}
+              setIntermediate={setIntermediate}/>
+              
     })
   }
 
