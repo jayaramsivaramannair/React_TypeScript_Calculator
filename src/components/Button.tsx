@@ -33,8 +33,8 @@ interface buttonProps {
 const Button: React.FC<buttonProps> = ({button, setOperations, operations, setClick, click, intermediate, setIntermediate}) => {
 
   const performCalculations = (clicked: string) => {
-    //Check if the number clicked is a number or not
-    if(!isNaN(parseInt(clicked))) {
+    //Check if the number clicked is a number or decimal
+    if(!isNaN(parseInt(clicked)) || clicked === ".") {
       //if the first number is not received yet, then keep adding to it
       if(!intermediate.firstNumberReceived) {
         intermediate.firstNumber = intermediate.firstNumber + clicked 
@@ -43,7 +43,7 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
         intermediate.secondNumber = intermediate.secondNumber + clicked
       }
     //If the button clicked is an operator
-    } else if (clicked === "+" || clicked === "-" || clicked === "*" || clicked === "/") {
+    } else if (clicked === "+" || clicked === "-" || clicked === "x" || clicked === "/") {
       //If the operator has not been already received
       if(!intermediate.operatorReceived) {
         intermediate.operator = clicked
@@ -58,19 +58,19 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
     if(intermediate.firstNumberReceived && intermediate.secondNumberReceived && intermediate.operatorReceived) {
       switch(intermediate.operator) {
         case "+":
-          setClick(String(parseFloat(intermediate.firstNumber) + parseFloat(intermediate.secondNumber)))
+          setClick(String((parseFloat(intermediate.firstNumber) + parseFloat(intermediate.secondNumber)).toFixed(8)))
           intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) + parseFloat(intermediate.secondNumber))
           break
         case "-":
-          setClick(String(parseFloat(intermediate.firstNumber) - parseFloat(intermediate.secondNumber)))
+          setClick(String((parseFloat(intermediate.firstNumber) - parseFloat(intermediate.secondNumber)).toFixed(8)))
           intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) - parseFloat(intermediate.secondNumber))
           break
         case "/":
-          setClick(String(parseFloat(intermediate.firstNumber) / parseFloat(intermediate.secondNumber)))
+          setClick(String((parseFloat(intermediate.firstNumber) / parseFloat(intermediate.secondNumber)).toFixed(8)))
           intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) / parseFloat(intermediate.secondNumber))
           break
         case "x": 
-          setClick(String(parseFloat(intermediate.firstNumber) * parseFloat(intermediate.secondNumber)))
+          setClick(String((parseFloat(intermediate.firstNumber) * parseFloat(intermediate.secondNumber)).toFixed(8)))
           intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) * parseFloat(intermediate.secondNumber))
           break
       }
@@ -86,6 +86,7 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
     }
 
     console.log(click)
+    setClick(clicked)
     return 
   }
 
@@ -94,9 +95,10 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
     event.preventDefault();
 
     //Check if the first button in a sequence of opearations is invalid or not
-    if(operations[0] === "/" || operations[0] === "x") {
+    if(operations.length === 0 && (button === 'x' || button === "/")) {
       setOperations([]) //Set the array to be an empty array if the operations are invalid
       setClick("0")
+      console.log(operations)
       return  
     }
 
