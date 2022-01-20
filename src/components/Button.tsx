@@ -14,7 +14,6 @@ interface buttonProps {
     operatorReceived: boolean,
     operator: string
   }
-
   setIntermediate: React.Dispatch<React.SetStateAction<{
     firstNumberReceived: boolean,
     firstNumber : string,
@@ -41,8 +40,13 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
       //Check if the second number is received or not
       } else if (!intermediate.secondNumberReceived) {
         intermediate.secondNumber = intermediate.secondNumber + clicked
-      }
-    //If the button clicked is an operator
+      } //Check for negative sign for the first number
+    } else if (clicked === "-" && intermediate.firstNumber === "") {
+      intermediate.firstNumber = clicked
+      // Check for negative sign for the second number
+    } else if (clicked === "-" && intermediate.secondNumber === "" && intermediate.operatorReceived) {
+      intermediate.secondNumber = clicked
+      //If the button clicked is an operator
     } else if (clicked === "+" || clicked === "-" || clicked === "x" || clicked === "/") {
       //If the operator has not been already received
       if(!intermediate.operatorReceived) {
@@ -58,19 +62,19 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
     if(intermediate.firstNumberReceived && intermediate.secondNumberReceived && intermediate.operatorReceived) {
       switch(intermediate.operator) {
         case "+":
-          setClick(String((parseFloat(intermediate.firstNumber) + parseFloat(intermediate.secondNumber)).toFixed(8)))
+          setClick(String((parseFloat(intermediate.firstNumber) + parseFloat(intermediate.secondNumber)).toFixed(4)))
           intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) + parseFloat(intermediate.secondNumber))
           break
         case "-":
-          setClick(String((parseFloat(intermediate.firstNumber) - parseFloat(intermediate.secondNumber)).toFixed(8)))
+          setClick(String((parseFloat(intermediate.firstNumber) - parseFloat(intermediate.secondNumber)).toFixed(4)))
           intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) - parseFloat(intermediate.secondNumber))
           break
         case "/":
-          setClick(String((parseFloat(intermediate.firstNumber) / parseFloat(intermediate.secondNumber)).toFixed(8)))
+          setClick(String((parseFloat(intermediate.firstNumber) / parseFloat(intermediate.secondNumber)).toFixed(4)))
           intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) / parseFloat(intermediate.secondNumber))
           break
         case "x": 
-          setClick(String((parseFloat(intermediate.firstNumber) * parseFloat(intermediate.secondNumber)).toFixed(8)))
+          setClick(String((parseFloat(intermediate.firstNumber) * parseFloat(intermediate.secondNumber)).toFixed(4)))
           intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) * parseFloat(intermediate.secondNumber))
           break
       }

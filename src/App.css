@@ -27,6 +27,7 @@ h1 {
 
 .display-operations {
   height: 3vh;
+  color: orange;
   font-size: 20px;
   padding-top: 25px;
   text-align: right;
@@ -34,6 +35,7 @@ h1 {
 
 .display-results {
   height: 5vh;
+  color: yellowgreen;
   font-size: 30px;
   padding-top: 25px;
   text-align: right;
@@ -61,4 +63,13 @@ h1 {
 
 .button:hover {
   transform: scale(1.1);
+}
+
+.button-AC {
+  background-color: maroon;
+  grid-column-start: span 2;
+}
+
+.button-0 {
+  grid-column-start: span 2;
 }
