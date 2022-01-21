@@ -36,7 +36,7 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
     if(!isNaN(parseInt(clicked)) || clicked === ".") {
       //if the first number is not received yet, then keep adding to it
       if(!intermediate.firstNumberReceived) {
-        intermediate.firstNumber = intermediate.firstNumber + clicked 
+        intermediate.firstNumber = intermediate.firstNumber + clicked
       //Check if the second number is received or not
       } else if (!intermediate.secondNumberReceived) {
         intermediate.secondNumber = intermediate.secondNumber + clicked
@@ -54,6 +54,8 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
         intermediate.firstNumberReceived = true
         intermediate.operatorReceived = true
         //if the operator has already been received
+      }  else if (intermediate.secondNumber === "") {
+        intermediate.operator = clicked
       } else {
         intermediate.secondNumberReceived = true
       }
@@ -78,8 +80,6 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
           intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) * parseFloat(intermediate.secondNumber))
           break
       }
-
-      
       intermediate.firstNumberReceived = true
       intermediate.operatorReceived = true
       intermediate.operator = clicked
@@ -88,9 +88,6 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
       console.log(intermediate)
       return 
     }
-
-    console.log(click)
-    setClick(clicked)
     return 
   }
 
