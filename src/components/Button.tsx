@@ -61,7 +61,7 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
       } else {
         intermediate.secondNumberReceived = true
       } //Check for the equal sign being clicked
-    } else if (clicked === "=" && intermediate.firstNumberReceived && intermediate.operatorReceived) {
+    } else if (clicked === "=" && intermediate.firstNumberReceived && intermediate.operatorReceived && intermediate.secondNumber !== "") {
       console.log(intermediate)
       intermediate.secondNumberReceived = true
     }
