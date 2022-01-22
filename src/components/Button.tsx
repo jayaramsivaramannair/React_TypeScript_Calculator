@@ -32,6 +32,7 @@ interface buttonProps {
 const Button: React.FC<buttonProps> = ({button, setOperations, operations, setClick, click, intermediate, setIntermediate}) => {
 
   const performCalculations = (clicked: string) => {
+    console.log(intermediate)
     //Check if the number clicked is a number or decimal
     if(!isNaN(parseInt(clicked)) || clicked === ".") {
       //if the first number is not received yet, then keep adding to it
@@ -53,12 +54,16 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
         intermediate.operator = clicked
         intermediate.firstNumberReceived = true
         intermediate.operatorReceived = true
-        //if the operator has already been received
+        //if the operator has already been received but the second Number is still not set then consider the recently entered operator
       }  else if (intermediate.secondNumber === "") {
         intermediate.operator = clicked
+        //Once the operator has been received then flip the boolean for secondNumberReceived so that calculation can proceed
       } else {
         intermediate.secondNumberReceived = true
-      }
+      } //Check for the equal sign being clicked
+    } else if (clicked === "=" && intermediate.firstNumberReceived && intermediate.operatorReceived) {
+      console.log(intermediate)
+      intermediate.secondNumberReceived = true
     }
 
     if(intermediate.firstNumberReceived && intermediate.secondNumberReceived && intermediate.operatorReceived) {
@@ -80,14 +85,20 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
           intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) * parseFloat(intermediate.secondNumber))
           break
       }
+      console.log(intermediate)
       intermediate.firstNumberReceived = true
-      intermediate.operatorReceived = true
-      intermediate.operator = clicked
+      if(clicked !== "=") {
+        intermediate.operatorReceived = true
+        intermediate.operator = clicked
+      } else {
+        intermediate.operatorReceived = false
+        intermediate.operator = ""
+      }
       intermediate.secondNumber = ""
       intermediate.secondNumberReceived = false
-      console.log(intermediate)
       return 
     }
+    console.log(intermediate)
     return 
   }
 
