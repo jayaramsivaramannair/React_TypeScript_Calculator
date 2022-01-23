@@ -32,37 +32,81 @@ interface buttonProps {
 const Button: React.FC<buttonProps> = ({button, setOperations, operations, setClick, click, intermediate, setIntermediate}) => {
 
   const performCalculations = (clicked: string) => {
-    console.log(intermediate)
     //Check if the number clicked is a number or decimal
     if(!isNaN(parseInt(clicked)) || clicked === ".") {
       //if the first number is not received yet, then keep adding to it
       if(!intermediate.firstNumberReceived) {
-        intermediate.firstNumber = intermediate.firstNumber + clicked
+        setIntermediate((intermediate) => {
+          return {
+            ...intermediate,
+            firstNumber: intermediate.firstNumber + clicked
+          }
+        })
       //Check if the second number is received or not
       } else if (!intermediate.secondNumberReceived) {
-        intermediate.secondNumber = intermediate.secondNumber + clicked
+        setIntermediate((intermediate) => {
+          return {
+            ...intermediate,
+            secondNumber: intermediate.secondNumber + clicked
+          }
+        })
       } //Check for negative sign for the first number
     } else if (clicked === "-" && intermediate.firstNumber === "") {
-      intermediate.firstNumber = clicked
+      setIntermediate((intermediate) => {
+        return {
+          ...intermediate,
+          firstNumber: clicked
+        }
+      })
       // Check for negative sign for the second number
     } else if (clicked === "-" && intermediate.secondNumber === "" && intermediate.operatorReceived) {
-      intermediate.secondNumber = clicked
+      setIntermediate((intermediate) => {
+        return {
+          ...intermediate,
+          secondNumber: clicked
+        }
+      })
       //If the button clicked is an operator
     } else if (clicked === "+" || clicked === "-" || clicked === "x" || clicked === "/") {
       //If the operator has not been already received
       if(!intermediate.operatorReceived) {
-        intermediate.operator = clicked
-        intermediate.firstNumberReceived = true
-        intermediate.operatorReceived = true
+        setIntermediate((intermediate) => {
+          return {
+            ...intermediate,
+            operator: clicked,
+            firstNumberReceived: true, 
+            operatorReceived: true
+          }
+        })
         //if the operator has already been received but the second Number is still not set then consider the recently entered operator
       }  else if (intermediate.secondNumber === "") {
-        intermediate.operator = clicked
+        setIntermediate((intermediate) => {
+          return {
+            ...intermediate, 
+            operator: clicked
+          }
+        })
         //Once the operator has been received then flip the boolean for secondNumberReceived so that calculation can proceed
       } else {
+        /*
+        setIntermediate((intermediate) => {
+          return {
+            ...intermediate, 
+            secondNumberReceived: true,
+          }
+        })
+        */
         intermediate.secondNumberReceived = true
       } //Check for the equal sign being clicked
     } else if (clicked === "=" && intermediate.firstNumberReceived && intermediate.operatorReceived && intermediate.secondNumber !== "") {
-      console.log(intermediate)
+      /*
+      setIntermediate((intermediate) => {
+        return {
+          ...intermediate,
+          secondNumberReceived: true
+        }
+      })
+      */
       intermediate.secondNumberReceived = true
     }
 
@@ -70,32 +114,52 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
       switch(intermediate.operator) {
         case "+":
           setClick(String((parseFloat(intermediate.firstNumber) + parseFloat(intermediate.secondNumber)).toFixed(4)))
-          intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) + parseFloat(intermediate.secondNumber))
+          setIntermediate((intermediate) => {
+            return {
+              ...intermediate,
+              firstNumber: String(parseFloat(intermediate.firstNumber) + parseFloat(intermediate.secondNumber))
+            }
+          })
           break
         case "-":
           setClick(String((parseFloat(intermediate.firstNumber) - parseFloat(intermediate.secondNumber)).toFixed(4)))
-          intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) - parseFloat(intermediate.secondNumber))
+          setIntermediate((intermediate) => {
+            return {
+              ...intermediate,
+              firstNumber: String(parseFloat(intermediate.firstNumber) - parseFloat(intermediate.secondNumber))
+            }
+          })
           break
         case "/":
           setClick(String((parseFloat(intermediate.firstNumber) / parseFloat(intermediate.secondNumber)).toFixed(4)))
-          intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) / parseFloat(intermediate.secondNumber))
+          setIntermediate((intermediate) => {
+            return {
+              ...intermediate,
+              firstNumber: String(parseFloat(intermediate.firstNumber) / parseFloat(intermediate.secondNumber))
+            }
+          })
           break
         case "x": 
           setClick(String((parseFloat(intermediate.firstNumber) * parseFloat(intermediate.secondNumber)).toFixed(4)))
-          intermediate.firstNumber = String(parseFloat(intermediate.firstNumber) * parseFloat(intermediate.secondNumber))
+          setIntermediate((intermediate) => {
+            return {
+              ...intermediate,
+              firstNumber: String(parseFloat(intermediate.firstNumber) * parseFloat(intermediate.secondNumber))
+            }
+          })
           break
       }
       console.log(intermediate)
-      intermediate.firstNumberReceived = true
-      if(clicked !== "=") {
-        intermediate.operatorReceived = true
-        intermediate.operator = clicked
-      } else {
-        intermediate.operatorReceived = false
-        intermediate.operator = ""
-      }
-      intermediate.secondNumber = ""
-      intermediate.secondNumberReceived = false
+      setIntermediate((intermediate) => {
+        return {
+            ...intermediate,
+            firstNumberReceived: true,
+            secondNumber: "",
+            secondNumberReceived: false,
+            operatorReceived: (clicked !== "=") ? true: false,
+            operator: (clicked !== "=") ? clicked : "",
+        }
+      })
       return 
     }
     console.log(intermediate)
