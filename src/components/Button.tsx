@@ -1,4 +1,3 @@
-import { setUncaughtExceptionCaptureCallback } from 'node:process';
 import React from 'react';
 
 interface buttonProps {
@@ -23,13 +22,22 @@ interface buttonProps {
     operator: string}>>
 
   setClick: React.Dispatch<React.SetStateAction<string>>
+  generateClassName(keyValue: string) : string
   setOperations: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 
 
 //Button is a functional component which deals with buttonProps
-const Button: React.FC<buttonProps> = ({button, setOperations, operations, setClick, click, intermediate, setIntermediate}) => {
+const Button: React.FC<buttonProps> = (
+  {button, 
+    setOperations, 
+    operations, 
+    setClick, 
+    click, 
+    intermediate, 
+    setIntermediate,
+    generateClassName}) => {
 
   const performCalculations = (clicked: string) => {
     //Check if the number clicked is a number or decimal
@@ -197,7 +205,7 @@ const Button: React.FC<buttonProps> = ({button, setOperations, operations, setCl
     performCalculations(button)
   }
   return (
-    <div className ={`button button-${button}`} onClick={clickHandlerFunction}>
+    <div id={`${generateClassName(button)}`}className ={`button button-${button}`} onClick={clickHandlerFunction}>
       {button}
     </div>
   )
